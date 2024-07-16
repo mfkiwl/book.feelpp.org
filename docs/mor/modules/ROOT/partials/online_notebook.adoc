@@ -7,7 +7,7 @@ It is possible to download this page as a Jupyter notebook and run it in an envi
 .Create the online model, choose randomly 4 parameter vectors and simulate them using a reduced basis of 10 elements
 [%dynamic,python]
 ----
-import feelpp
+import feelpp as fpppc
 from feelpp.mor import *
 ms=feelpp.mor.MORModels(fpp_name)
 muspace = ms.parameterSpace()
@@ -40,10 +40,10 @@ for i in range(len(r)):
 
 
     output_frame = df(data=outputs)
-    
 
-    set_option('display.float_format', '{:.2E}'.format)    
-    
+
+    set_option('display.float_format', '{:.2E}'.format)
+
     output_dataframes.append(output_frame)
 
 op.display.max_colwidth = 100
@@ -54,5 +54,5 @@ for frame in output_dataframes:
     print(frame)
     print("\n")
     i=i+1
-    
+
 ----
