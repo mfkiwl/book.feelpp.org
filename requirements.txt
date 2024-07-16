@@ -1,8 +1,16 @@
-pyvista
-xvfbwrapper
-ipykernel
+pyvista == 0.43.0
+xvfbwrapper 
+ipykernel == 6.28.0
 pythreejs
 plotly
 trame-vtk
-trame
+trame 
+trame-vuetify
 spdlog
+ipywidgets == 8.1.2
+jupyter-server-proxy
+pandas < 2.2
+nbmake >= 1.5
+traitlets >= 5.10
+tabulate
+bottleneck >= 1.3.4

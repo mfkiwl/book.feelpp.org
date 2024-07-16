@@ -24,7 +24,7 @@ from feelpp.toolboxes.heat import * # <1>
 import feelpp.toolboxes.core as core # <2>
 from feelpp.operators import mass # <3>
 import feelpp.mor as mor # <4>
-import feelpp
+import feelpp.core as fppc
 ----
 <.> The toolbox heat is used to simulate the heat equation on the case studied.
 <.> The module `core` is used to set the environment.

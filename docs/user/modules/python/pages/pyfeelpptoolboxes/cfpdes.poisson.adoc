@@ -221,7 +221,7 @@ We start by initializing the {feelpp} environment.
 [%dynamic,python]
 ----
 import sys
-import feelpp
+import feelpp.core as fppc
 import feelpp.toolboxes.core as tb
 from feelpp.toolboxes.cfpdes import *
 import pandas as pd

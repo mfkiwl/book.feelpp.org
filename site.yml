@@ -7,14 +7,14 @@ site:
     google_analytics: 'UA-65761593-1'
 content:
   sources:
-  - url: https://github.com/feelpp/book.feelpp.org
-    branches: [develop]
+  - url: ./
+    branches: [HEAD]
     start_path: docs/feelppdocs
     tags:
     - v0.110
     - v0.109
-  - url: https://github.com/feelpp/book.feelpp.org
-    branches: develop
+  - url: ./
+    branches: HEAD
     start_path: docs/user
     tags:
     - v0.110
@@ -23,8 +23,8 @@ content:
 #    - v0.107
 #    - v0.106
 #    - v0.105
-  - url: https://github.com/feelpp/book.feelpp.org
-    branches: develop
+  - url: ./
+    branches: HEAD
     start_path: docs/dev
     tags:
     - v0.110
@@ -39,14 +39,14 @@ content:
   - url: https://github.com/feelpp/feelpp-project
     branches: master
     start_path: docs/
-  - url: https://github.com/feelpp/book.feelpp.org
-    branches: develop
+  - url: ./
+    branches: HEAD
     start_path: docs/data
-  - url: https://github.com/feelpp/book.feelpp.org
-    branches: develop
+  - url: ./
+    branches: HEAD
     start_path: docs/math
-  - url: https://github.com/feelpp/book.feelpp.org
-    branches: develop
+  - url: ./
+    branches: HEAD
     start_path: docs/toolboxes
     tags:
     - v0.110
@@ -56,19 +56,19 @@ content:
 #    - v0.106
 #    - v0.105
   - url: https://github.com/feelpp/toolbox
-    branches: [develop]
+    branches: [HEAD]
     tags:
-    - v0.110
-    - v0.109
+      - v0.110
+      - v0.109
     start_path: examples
   - url: https://github.com/feelpp/toolbox
-    branches: [develop]
+    branches: [HEAD]
     start_path: toolboxes
   - url: https://github.com/feelpp/toolbox
-    branches: develop
+    branches: HEAD
     start_path: contribute
-  - url: https://github.com/feelpp/book.feelpp.org
-    branches: develop
+  - url: ./
+    branches: HEAD
     start_path: docs/mor
     tags:
     - v0.110
@@ -79,10 +79,10 @@ content:
 #  - url: https://github.com/feelpp/book.hifimagnet
 #    branches: master
 #    start_path: docs/mso4sc
-  - url: https://github.com/feelpp/book.feelpp.org
-    branches: develop
+  - url: ./
+    branches: HEAD
     start_path: docs/salome/
-#  - url: https://github.com/feelpp/book.feelpp.org
+#  - url: ./
 #    branches: mor-module
 #    start_path: docs/mor/
 ui:

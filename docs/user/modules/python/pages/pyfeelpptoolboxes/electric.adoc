@@ -6,7 +6,7 @@
 [source,python]
 .Electric
 ----
-from feelpp import *
+from feelpp.core import *
 from feelpp.toolboxes.core import *
 from feelpp.toolboxes.electric import *
 ----
