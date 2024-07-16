@@ -15,19 +15,19 @@ jobs:
 #      with:
 #        python-version: '3.10'
 #        cache: 'pip' # caching pip dependencies
-    - name: Python install 
+    - name: Python install
       run: |
         python -m venv --system-site-packages .venv
         source .venv/bin/activate
-        pip install -r requirements.txt        
-    - name: Npm Install 
+        pip install -I -r requirements.txt
+    - name: Npm Install
       run: |
-        npm i 
+        npm i
         echo "${{ github.workspace }}/node_modules/.bin" >> $GITHUB_PATH
     - name: Check
       run: |
-        antora -v
-        asciidoctor -v
+        npx antora -v
+        npx asciidoctor -v
 
     - name: Build
       run: |
