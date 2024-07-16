@@ -58,8 +58,8 @@ content:
   - url: https://github.com/feelpp/toolbox
     branches: [HEAD]
     tags:
-      - v0.110
-      - v0.109
+    - v0.110
+    - v0.109
     start_path: examples
   - url: https://github.com/feelpp/toolbox
     branches: [HEAD]
