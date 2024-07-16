@@ -8,13 +8,13 @@ We start with setting the {feelpp} environment and loading the {feelpp} library.
 .Set the {feelpp} environment with local repository
 [%dynamic,python]
 ----
-import feelpp 
+import feelpp.core as fppc
 import sys,math
 import plotly.express as px
 import plotly.graph_objects as go
 
-app = feelpp.Environment(["myapp"],config=feelpp.localRepository(""))
-print("feelpp version: ",feelpp.Info.version())
+app = fppc.Environment(["myapp"],config=fppc.localRepository(""))
+print("feelpp version: ",fppc.Info.version())
 ----
 
 == Create and evaluate expressions
@@ -29,7 +29,7 @@ The expression can be then evaluated at a given point.
 .Create a scalar expression abd evaluate the expression at a given point (1,2)
 [%dynamic,python]
 ----
-expr = feelpp.expr("x+y:x:y") # <1>
+expr = fppc.expr("x+y:x:y") # <1>
 expr.evaluate({"x":1,"y":2}) # <2>
 ----
 <1> Create a scalar expression from a string, the symbols are listed at the end of the string using `:` as separator.
@@ -57,7 +57,7 @@ We start with an expression that depends on two variables `x` and `y` and create
 .Create a vectorial expression abd evaluate the expression at a given point (1,2)
 [%dynamic,python]
 ----
-expr21 = feelpp.expr("{x,y}:x:y",row=2,col=1) # <1>
+expr21 = fppc.expr("{x,y}:x:y",row=2,col=1) # <1>
 expr21.evaluate({"x":1,"y":2}) # <2>
 ----
 <1> Create a vectorial expression from a string, the symbols are listed at the end of the string using `:` as separator.
@@ -68,7 +68,7 @@ Now we turn to a vectorial expression with 3 components.
 
 [%dynamic,python]
 ----
-expr31 = feelpp.expr("{x,y,z+x}:x:y:z",row=3,col=1) # <1>
+expr31 = fppc.expr("{x,y,z+x}:x:y:z",row=3,col=1) # <1>
 expr31.evaluate({"x":1,"y":2,"z":10}) # <2>
 ----
 <1> Create a vectorial expression from a string, the symbols are listed at the end of the string using `:` as separator.
@@ -82,7 +82,7 @@ We start with a 2x2 matricial expression.
 .Create a matricial expression abd evaluate the expression at a given point (1,2)
 [%dynamic,python]
 ----
-expr22 = feelpp.expr("{x+y,x,y,y-x}:x:y", row=2, col=2)  # <1>
+expr22 = fppc.expr("{x+y,x,y,y-x}:x:y", row=2, col=2)  # <1>
 expr22.evaluate({"x":1,"y":2}) # <2>
 ----
 <1> Create a matricial expression from a string, the symbols are listed at the end of the string using `:` as separator.
@@ -93,7 +93,7 @@ We now turn to a 3x3 matricial expression.
 
 [%dynamic,python]
 ----
-expr33 = feelpp.expr("{x,y,z,x-y,y-y,z+x+y,z,y,x}:x:y:z",row=3,col=3) # <1>
+expr33 = fppc.expr("{x,y,z,x-y,y-y,z+x+y,z,y,x}:x:y:z",row=3,col=3) # <1>
 expr33.evaluate({"x":1,"y":2,"z":3}) # <2>
 ----
 <1> Create a matricial expression from a string, the symbols are listed at the end of the string using `:` as separator.
@@ -106,7 +106,7 @@ expr33.evaluate({"x":1,"y":2,"z":3}) # <2>
 The member functions `diff` and `diff2` allows to compute the first and second symbolic derivatives of a function. The first argument is the symbol with respect to which the derivative is computed. 
 [%dynamic,python]
 ----
-ex=feelpp.expr("a*sin(x):x:a")
+ex=fppc.expr("a*sin(x):x:a")
 ex.setParameterValues({"a":1})
 exd = ex.diff("x") # <1>
 exd2 = ex.diff2("x") # <2>
@@ -143,7 +143,7 @@ Here is an example of a vectorial expression and its derivative with respect to 
 
 [%dynamic,python]
 ----
-expr21 = feelpp.expr("{x^3,x*y^2}:x:y", row=2, col=1)  # <1>
+expr21 = fppc.expr("{x^3,x*y^2}:x:y", row=2, col=1)  # <1>
 print("d(x,y)/dx = ",expr21.diff("x")) # <2> 
 print("d(x,y)/dy = ", expr21.diff("y")) # <3>
 print("d2(x,y)/dxdy = ", expr21.diff("x").diff("y")) # <4>
@@ -167,7 +167,7 @@ The {feelpp} library provides a set of special functions that can be used in exp
 
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("sin(w*x+b):x:w:b")
+ex=fppc.expr("sin(w*x+b):x:w:b")
 ex.setParameterValues({"w":2*math.pi,"b":0.5})
 x=np.linspace(0,2*math.pi,100)
 y=ex.evaluate("x",x)
@@ -182,7 +182,7 @@ The function `clamp` allows to clamp a value between two bounds.
 
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("clamp(sin(w*x+b),-0.3,0.4):x:w:b")
+ex=fppc.expr("clamp(sin(w*x+b),-0.3,0.4):x:w:b")
 ex.setParameterValues({"w":2*math.pi,"b":0.5})
 x=np.linspace(0,2*math.pi,100)
 y=ex.evaluate("x",x)
@@ -198,7 +198,7 @@ The function `mapabcd` allows to map a value from a given interval to another in
 
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("mapabcd(x,-1,1,0,1):x")
+ex=fppc.expr("mapabcd(x,-1,1,0,1):x")
 x=np.linspace(-1,1,100)
 y=ex.evaluate("x",x)
 
@@ -213,7 +213,7 @@ The function `step1` is a step function that is equal to 1 if the argument is gr
 
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("step1(x,2):x")
+ex=fppc.expr("step1(x,2):x")
 x=np.linspace(0,2*math.pi,100)
 y=ex.evaluate("x",x)
 
@@ -227,7 +227,7 @@ The smoothstep function is a smooth approximation of the step function.
 
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("smoothstep(sin(x),0,0.5):x")
+ex=fppc.expr("smoothstep(sin(x),0,0.5):x")
 x=np.linspace(0,2*math.pi,100)
 y=ex.evaluate("x",x)
 
@@ -242,7 +242,7 @@ The pulse function is defined as
 stem:[\text{pulse}(x)=\begin{cases} 1 & \text{if } x\in[0,1\] \\ 0 & \text{otherwise} \end{cases}]
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("pulse(x,0,1,2):x")
+ex=fppc.expr("pulse(x,0,1,2):x")
 x=np.linspace(0,2*math.pi,100)
 y=ex.evaluate("x",x)
 
@@ -257,7 +257,7 @@ stem:[\text{rectangle}(x)=\begin{cases} 1 & \text{if } x\in[0,1\] \\ 0 & \text{o
 
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("rectangle(x,0,1):x")
+ex=fppc.expr("rectangle(x,0,1):x")
 x=np.linspace(0,2*math.pi,100)
 y=ex.evaluate("x",x)
 
@@ -274,7 +274,7 @@ stem:[\text{triangle}(x)=1-\left|\chi_{[a,b\]} \left(-1+2\frac{x-a}{b-a} \right)
 
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("triangle(x,0,1):x")
+ex=fppc.expr("triangle(x,0,1):x")
 x=np.linspace(0,2*math.pi,100)
 y=ex.evaluate("x",x)
 
@@ -290,7 +290,7 @@ The `sinwave` function is a periodic function with a given period and amplitude.
 
 [%dynamic%raw,python]
 ----
-ex=feelpp.expr("sinewave(x,2,0.5):x")
+ex=fppc.expr("sinewave(x,2,0.5):x")
 x=np.linspace(0,2*math.pi,200)
 y=ex.evaluate("x",x)
 

@@ -5,13 +5,14 @@ include::user:ROOT:partial$header-macros.adoc[]
 
 [%dynamic,python]
 ----
-from feelpp.interpolation import *
+import feelpp.core as fppc
+from feelpp.core.interpolation import *
 ----
 
 
 == Create an interpolator
 
-[%dynamic, python]
+[source, python]
 ----
 I = interpolator(_domain = <space domain>,
                  _image = <space domain>,

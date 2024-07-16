@@ -16,42 +16,43 @@ In this 2D and 3D example, we
 .Example to build a mesh and function space, create an element and visualize them in {paraview}
 [%dynamic,python]
 ----
-import feelpp
+import feelpp.core as fppc
 import sys,os
 import spdlog as spd
-from feelpp.timing import tic, toc
+from feelpp.core.timing import tic, toc
 
 logger = spd.ConsoleLogger('Logger', False, True, True) 
 logger.set_level(spd.LogLevel.TRACE)
 
 tic()
-app = feelpp.Environment(["myapp"],config=feelpp.localRepository("")) # <1>
+app = fppc.Environment(["myapp"],config=fppc.localRepository("")) # <1>
 toc("init Feel++")
 
-logger.info(f"Feel++ version: {feelpp.Info.version()}")
+logger.info(f"Feel++ version: {fppc.Info.version()}")
+print("Feel++ version: ",fppc.Info.version())
 ----
 <1> The {feelpp} environment is initiated with the name of the application and the path to the local repository where the results will be stored.
 
 [%dynamic,python]
 ----
 app.setLogVerbosityLevel(0) # <1>
-geofilename=feelpp.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0]
+geofilename=fppc.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0]
 
 tic()
-mesh = feelpp.load(feelpp.mesh(dim=2,realdim=2), name=geofilename, h=0.1, verbose=1) # <2>
+mesh = fppc.load(fppc.mesh(dim=2,realdim=2), name=geofilename, h=0.1, verbose=1) # <2>
 toc("load mesh")
 logger.info(f"mesh loaded")
 
-Xh=feelpp.functionSpace(mesh=mesh,space="Pch",order=1) # <3>
-P0h=feelpp.functionSpace(mesh=mesh,space="Pdh",order=0) # <4>
+Xh=fppc.functionSpace(mesh=mesh,space="Pch",order=1) # <3>
+P0h=fppc.functionSpace(mesh=mesh,space="Pdh",order=0) # <4>
 u=Xh.element() # <5>
-u.on(range=feelpp.elements(mesh), expr=feelpp.expr("sin(2*pi*x)*cos(pi*y):x:y")) # <6>
+u.on(range=fppc.elements(mesh), expr=fppc.expr("sin(2*pi*x)*cos(pi*y):x:y")) # <6>
 logger.info(f"functionspace built and u created")
 
-e = feelpp.exporter(mesh=mesh)  # <7>
+e = fppc.exporter(mesh=mesh)  # <7>
 e.add("a_scalar", 1.) # <8>
 e.add("u",u) # <9>
-e.add("pid",feelpp.pid( P0h )) # <10>
+e.add("pid",fppc.pid( P0h )) # <10>
 e.save() # <11>
 logger.info(f"export done")
 ----
@@ -71,14 +72,14 @@ The results are stored in the directory `feelppdb` and can be visualized with {p
 
 INFO: The file `exports/ensightgold/myapp/myapp.case` can be opened directly in {paraview} or {ensight} to visualize the mesh and the fields.
 
-[%dynamic%hidden%raw,python,output=pyvista,disclosure=open]
+//[%dynamic%hidden%raw,python,output=pyvista,disclosure=open]
+[source,python]
 ----
 from xvfbwrapper import Xvfb
 vdisplay = Xvfb()
 vdisplay.start()
 import pyvista as pv
 import os
-pv.set_jupyter_backend('pythreejs')
 
 def pv_get_mesh(mesh_path):
     reader = pv.get_reader(mesh_path)
@@ -101,7 +102,7 @@ axes = pv.create_axes_marker(
                                 zlabel="Z Axis",
                                 label_size=(0.1, 0.1), label_color="#aaaaaa",
                             )
-plotter.add_actor(axes)
+#plotter.add_actor(axes)
 
 plotter.show()
 ----

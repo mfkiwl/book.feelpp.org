@@ -18,9 +18,9 @@ The repository can be global with respect to `$HOME/.feelppconfig` `globalroot` 
 .Set the {feelpp} environment with local repository
 [%dynamic,python]
 ----
-import feelpp as fpp
+import feelpp.core as fppc
 import sys
-app = fpp.Environment(["myapp"],config=fpp.localRepository(""))
+app = fppc.Environment(["myapp"],config=fppc.localRepository(""))
 ----
 
 .Query the app about the current environment
@@ -37,7 +37,7 @@ print("is parallel: ",app.isParallel() )
 
 [%dynamic,python]
 ----
-readme=fpp.download( "github:{repo:feelpp,path:README.adoc}", worldComm=app.worldCommPtr() )[0]
+readme=fppc.download( "github:{repo:feelpp,path:README.adoc}", worldComm=app.worldCommPtr() )[0]
 
 print("downloaded Feel++ README.adoc from Github: ",readme)
 ----
@@ -48,7 +48,7 @@ A bit more interesting example: the following code will download a csv file from
 
 [%dynamic,python]
 ----
-acsv=fpp.download( "github:{repo:feelpp,path:toolboxes/fluid/cases/moving_body/gravity/cylinder_under_gravity/curve_comparison.csv}", worldComm=app.worldCommPtr() )[0] # <1>
+acsv=fppc.download( "github:{repo:feelpp,path:toolboxes/fluid/cases/moving_body/gravity/cylinder_under_gravity/curve_comparison.csv}", worldComm=app.worldCommPtr() )[0] # <1>
 import pandas as pd # <2>
 df = pd.read_csv(acsv, sep=",") # <3>
 df.columns = df.columns.str.replace(' ', '')

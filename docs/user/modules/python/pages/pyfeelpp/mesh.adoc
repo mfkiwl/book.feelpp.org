@@ -7,14 +7,14 @@ We start with setting the {feelpp} environment and loading the {feelpp} library.
 .Set the {feelpp} environment with local repository
 [%dynamic,python]
 ----
-import feelpp 
+import feelpp.core as fppc
 import sys
-app = feelpp.Environment(["myapp"],config=feelpp.localRepository(""))
+app = fppc.Environment(["myapp"],config=fppc.localRepository(""))
 ----
 
 == Load a mesh from a `geo` or `msh` file
 
-`feelpp.mesh(dim=2, geo=1, realdim=2, worldComm=None)` : create a mesh.
+`fppc.mesh(dim=2, geo=1, realdim=2, worldComm=None)` : create a mesh.
 The mesh is of topological dimension `dim`, in real dimension `realdim` with geometric order `geo`.
 The mesh is configured with a `WorldComm` which provides the parallel process layout.
 
@@ -26,7 +26,7 @@ Keyword arguments:
 * `worldComm` : the parallel communicator for the mesh (default:  `Environment::worldCommPtr()`)
 
 
-`feelpp.load(m, path, size) -> feelpp._mesh.Mesh_S1DG1R1` : load a mesh from a file
+`fppc.load(m, path, size) -> fppc._mesh.Mesh_S1DG1R1` : load a mesh from a file
 
 * `m` declared with the function `mesh` above
 * `path` (`string`) path to the geometry (with `geo` or `msh` format)
@@ -36,9 +36,9 @@ Keyword arguments:
 .Example
 [%dynamic,python]
 ----
-geo=feelpp.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0]
+geo=fppc.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0]
 print("geo file: {}".format(geo))
-mesh = feelpp.load(feelpp.mesh(dim=2,realdim=2), geo, 0.1)
+mesh = fppc.load(fppc.mesh(dim=2,realdim=2), geo, 0.1)
 ----
 
 == Usage
@@ -79,10 +79,10 @@ print(f"measure of boundary: {mesh.measureBoundary()}")
 
 === Test relation between meshes :
 
-* `isParentMeshOf(self: feelpp._mesh.Mesh_S3DG1R3, arg0: feelpp._mesh.Mesh_S3DG1R3) -> bool` : is the mesh the parent mesh of another mesh
-* `isRelatedTo(self: feelpp._mesh.Mesh_S3DG1R3, arg0: feelpp._mesh.Mesh_S3DG1R3) -> bool` : is the mesh related to another mesh
-* `isSiblingOf(self: feelpp._mesh.Mesh_S3DG1R3, arg0: feelpp._mesh.Mesh_S3DG1R3) -> bool`: is the mesh a sibling of another mesh
-* `isSubMeshFrom(self: feelpp._mesh.Mesh_S3DG1R3, arg0: feelpp._mesh.Mesh_S3DG1R3) -> bool` : is the mesh a sub mesh of another mesh
+* `isParentMeshOf(self: fppc._mesh.Mesh_S3DG1R3, arg0: fppc._mesh.Mesh_S3DG1R3) -> bool` : is the mesh the parent mesh of another mesh
+* `isRelatedTo(self: fppc._mesh.Mesh_S3DG1R3, arg0: fppc._mesh.Mesh_S3DG1R3) -> bool` : is the mesh related to another mesh
+* `isSiblingOf(self: fppc._mesh.Mesh_S3DG1R3, arg0: fppc._mesh.Mesh_S3DG1R3) -> bool`: is the mesh a sibling of another mesh
+* `isSubMeshFrom(self: fppc._mesh.Mesh_S3DG1R3, arg0: fppc._mesh.Mesh_S3DG1R3) -> bool` : is the mesh a sub mesh of another mesh
 
 
 === Export and load mesh on https://support.hdfgroup.org/HDF5/[HDF5 format]
@@ -93,25 +93,25 @@ print(f"measure of boundary: {mesh.measureBoundary()}")
 
 == Ranges
 
-`elements`:: `feelpp.elements(mesh)` : get iterator over the elements of the mesh
+`elements`:: `fppc.elements(mesh)` : get iterator over the elements of the mesh
 `markedelements`::
-    1. `feelpp.markedelements(mesh, tag: str)` : get iterator over the marked elements of the mesh
-    2. `feelpp.markedelements(mesh, marker: str)` :  return the range of elements of the mesh with marker
-    3. `feelpp.markedelements(mesh, markers: List[str])` : return the range of elements of the mesh with markers
-`faces`:: `feelpp.faces(mesh)` : get iterator over the faces of the mesh
+    1. `fppc.markedelements(mesh, tag: str)` : get iterator over the marked elements of the mesh
+    2. `fppc.markedelements(mesh, marker: str)` :  return the range of elements of the mesh with marker
+    3. `fppc.markedelements(mesh, markers: List[str])` : return the range of elements of the mesh with markers
+`faces`:: `fppc.faces(mesh)` : get iterator over the faces of the mesh
 `markedfaces`::
-    1. `feelpp.markedfaces(mesh, marker: str)` : return the range of facets of the mesh with marker
+    1. `fppc.markedfaces(mesh, marker: str)` : return the range of facets of the mesh with marker
     2. `markedfaces(mesh, markers: List[str])` : return the range of facets of the mesh with marker
-`boundaryfaces`:: `feelpp.boundaryfaces(mesh)`: get iterator over the boundary faces of the mesh
+`boundaryfaces`:: `fppc.boundaryfaces(mesh)`: get iterator over the boundary faces of the mesh
 
 A first example with ranges:
 
 [%dynamic,python]
 ----
-r = feelpp.elements(mesh)
-print("mesh elts:", feelpp.nelements(r))
-r = feelpp.boundaryfaces(mesh)
-print("mesh boundary faces:", feelpp.nelements(r))
+r = fppc.elements(mesh)
+print("mesh elts:", fppc.nelements(r))
+r = fppc.boundaryfaces(mesh)
+print("mesh boundary faces:", fppc.nelements(r))
 ----
     
 
@@ -120,11 +120,11 @@ A second more interesting example with ranges uses integrate to compute integral
 .Example : compute integrals
 [%dynamic,python]
 ----
-from feelpp.integrate  import integrate
+from feelpp.core.integrate  import integrate
 
-i1 = integrate(range=feelpp.elements(mesh),expr="sin(x+y):x:y")
-i2 = integrate(range=feelpp.boundaryfaces(mesh),expr="x*nx+y*ny+z*nz:x:y:z:nx:ny:nz")
-i3 = integrate(range=feelpp.markedelements(mesh, "marker"), expr="1")
+i1 = integrate(range=fppc.elements(mesh),expr="sin(x+y):x:y")
+i2 = integrate(range=fppc.boundaryfaces(mesh),expr="x*nx+y*ny+z*nz:x:y:z:nx:ny:nz")
+i3 = integrate(range=fppc.markedelements(mesh, "marker"), expr="1")
 
 print(f"i1 = {i1}, i2 = {i2}, i3 = {i3}")
 ----

@@ -7,9 +7,9 @@ We start with setting the {feelpp} environment and loading the {feelpp} library.
 .Set the {feelpp} environment with local repository
 [%dynamic,python]
 ----
-import feelpp 
+import feelpp.core as fppc
 import sys
-app = feelpp.Environment(["myapp"],config=feelpp.localRepository(""))
+app = fppc.Environment(["myapp"],config=fppc.localRepository(""))
 
 ----
 
@@ -25,9 +25,9 @@ We first load a mesh
 .Load a mesh stem:[\mathcal{T}]
 [%dynamic,python]
 ----
-geo=feelpp.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0]
+geo=fppc.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0]
 print("geo file: {}".format(geo))
-mesh = feelpp.load(feelpp.mesh(dim=2,realdim=2), geo, 0.1)
+mesh = fppc.load(fppc.mesh(dim=2,realdim=2), geo, 0.1)
 ----
 
 Then we can define functions stem:[f] and compute the integral of stem:[f] over the mesh stem:[\mathcal{T}].
@@ -35,11 +35,11 @@ Then we can define functions stem:[f] and compute the integral of stem:[f] over 
 .Compute integrals
 [%dynamic,python]
 ----
-from feelpp.integrate  import integrate
+from feelpp.core.integrate  import integrate
 
-i1 = integrate(range=feelpp.elements(mesh),expr="sin(x+y):x:y")
-i2 = integrate(range=feelpp.boundaryfaces(mesh),expr="x*nx+y*ny+z*nz:x:y:z:nx:ny:nz")
-i3 = integrate(range=feelpp.markedelements(mesh, "marker"), expr="1")
+i1 = integrate(range=fppc.elements(mesh),expr="sin(x+y):x:y")
+i2 = integrate(range=fppc.boundaryfaces(mesh),expr="x*nx+y*ny+z*nz:x:y:z:nx:ny:nz")
+i3 = integrate(range=fppc.markedelements(mesh, "marker"), expr="1")
 
 print(f"i1 = {i1}, i2 = {i2}, i3 = {i3}")
 ----

@@ -7,15 +7,14 @@ We download a 2D and 3D geometry from the {feelpp} github repository.
 
 [%dynamic,python]
 ----
-import feelpp
+import feelpp.core as fppc
 import sys
 
-app=feelppEnvironment(["myapp"],config=localRepository(""))
+app=fppc.Environment(["myapp"],config=fppc.localRepository(""))
 
-from pyfeelpp import mesh,discr,vf
 geo={
-    '2':feelpp.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0],
-    '3':feelpp.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp3d/feelpp3d.geo}", worldComm=app.worldCommPtr() )[0]
+    '2':fppc.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0],
+    '3':fppc.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp3d/feelpp3d.geo}", worldComm=app.worldCommPtr() )[0]
 }
 print(" . 2D geometry file: {}".format(geo['2']))
 print(" . 3D geometry file: {}".format(geo['3']))
@@ -34,8 +33,8 @@ Scalar functions stem:[f \Omega \rightarrow \mathbb{R}] are defined on the mesh 
 .2D mesh and function space example
 ----
 def run( m, geo ):
-    m2d = feelpp.load(m,geo,0.1)
-    Xh=feelpp.functionSpace(mesh=m2d)
+    m2d = fppc.load(m,geo,0.1)
+    Xh=fppc.functionSpace(mesh=m2d)
 
     if app.isMasterRank():
         print("Xh basisname: ", Xh.basisName())
@@ -49,12 +48,12 @@ def run( m, geo ):
     assert m3==m2d
 
     u=Xh.element()
-    u.on(range=feelpp.elements(m2d),expr=feelpp.expr("x:x"))
+    u.on(range=fppc.elements(m2d),expr=fppc.expr("x:x"))
 
     assert u.functionSpace() == Xh
     assert u.size() == Xh.nDof()
 
-run( feelpp.mesh(dim=2), geo['2'] )
+run( fppc.mesh(dim=2), geo['2'] )
 ----
 
 Finally, we can do the same in 3D
@@ -62,5 +61,5 @@ Finally, we can do the same in 3D
 [%dynamic,python]
 .3D mesh and function space example
 ----
-run( feelpp.mesh(dim=3,realdim=3), geo['3'] )
+run( fppc.mesh(dim=3,realdim=3), geo['3'] )
 ----
