@@ -205,6 +205,20 @@ You can check the package by run `spack test`
 spack test run feelpp
 ----
 
+Then load the {feelpp} package
+
+[source,sh]
+----
+spack load feelpp
+----
+
+Try get some info about {feelpp} using the command `feelpp_info`
+
+[source,sh]
+----
+feelpp_info
+----
+
 --
 Docker::
 +
