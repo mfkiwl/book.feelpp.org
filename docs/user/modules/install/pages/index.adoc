@@ -193,7 +193,7 @@ then download the package feelpp
 
 [source,sh]
 ----
-spack install --use-buildcache only feelpp target=x86_64_v3
+spack install --use-buildcache only --no-check-signature feelpp target=x86_64_v3
 ----
 
 {feelpp} package as well as the dependencies will be installed.
