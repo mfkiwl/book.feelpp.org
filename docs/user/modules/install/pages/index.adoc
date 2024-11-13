@@ -138,6 +138,7 @@ To use {feelpp} on Windows 10, follow these steps:
 
 include::partial$install-deb.adoc[]
 --
+[[spack]]
 Spack::
 +
 --
