@@ -138,7 +138,6 @@ To use {feelpp} on Windows 10, follow these steps:
 
 include::partial$install-deb.adoc[]
 --
-[[spack]]
 Spack::
 +
 --
@@ -147,6 +146,7 @@ Binaries are available for the generic microarchitecture `x86_64_v3`.
 
 The following steps require the installation of Spack and the cloning of the `spack.numpex` repository.
 
+[[spack]]
 [discrete]
 === Clone Spack
 
